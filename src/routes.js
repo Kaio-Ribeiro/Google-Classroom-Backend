@@ -1,31 +1,10 @@
 import express from 'express';
 import knex from './database/connection.js';
+import UserController from './controllers/UserController.js'
 
 const routes = express.Router();
 
-routes.post('/users', async (request, response) => {
-    const {
-        name,
-        email,
-        password,
-        avatar,
-
-    } = request.body;
-
-    try {
-        await knex('users').insert({
-            name,
-            email,
-            password,
-            avatar
-        })
-    }catch (err) {
-        console.log(err)
-    }
-
-    return response.json({ success: true });
-
-})
+routes.post('/users', UserController.create)
 
 
 export default routes;
