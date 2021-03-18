@@ -8,7 +8,7 @@ routes.post('/users', async (request, response) => {
         name,
         email,
         password,
-        avatar
+        avatar,
 
     } = request.body;
 
@@ -17,20 +17,15 @@ routes.post('/users', async (request, response) => {
             name,
             email,
             password,
-            avatar: 'image-fake'
+            avatar
         })
     }catch (err) {
-        console.log(knex)
+        console.log(err)
     }
 
     return response.json({ success: true });
 
 })
 
-routes.get('/users', async (request, response) => {
-
-    return console.log(knex('users'));
-
-})
 
 export default routes;
