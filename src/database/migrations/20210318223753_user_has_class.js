@@ -9,7 +9,7 @@ export function up(knex) {
           .references('id')
           .inTable('users')
 
-         table.integer('classroom_id')
+         table.string('classroom_id')
           .notNullable()
           .references('id')
           .inTable('classrooms')

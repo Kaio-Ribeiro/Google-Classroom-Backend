@@ -1,6 +1,6 @@
 export function up(knex) {
     return knex.schema.createTable('classrooms', function (table) {
-         table.increments('id').primary();
+         table.string('id').primary();
          table.string('title').notNullable();
          table.string('description').notNullable();
          table.string('subject').notNullable();

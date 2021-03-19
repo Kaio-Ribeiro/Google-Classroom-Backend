@@ -1,4 +1,5 @@
 import knex from '../database/connection.js';
+import crypto from 'crypto';
 
 export default {
     async create(request, response) {
@@ -12,9 +13,11 @@ export default {
         } = request.body;
 
         const trx = await knex.transaction();
+        const class_id = crypto.randomBytes(4).toString('HEX')
     
     
-        const ids = await trx('classrooms').insert({
+        await trx('classrooms').insert({
+            id: class_id,
             title,
             description,
             subject,
@@ -25,13 +28,13 @@ export default {
             is_teacher: true,
             is_owner: true,
             user_id: user_id,
-            classroom_id: ids,
+            classroom_id: class_id,
         }
 
         await trx('user_has_class').insert(user_has_class)
 
         await trx.commit()
     
-        return response.json({ success: true });
+        return response.json({ class_id });
     }
 }
