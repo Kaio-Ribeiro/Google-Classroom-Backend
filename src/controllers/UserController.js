@@ -15,7 +15,7 @@ export default {
             name,
             email,
             password,
-            avatar
+            avatar: 'image-fake'
         })
     
         return response.json({ success: true });
