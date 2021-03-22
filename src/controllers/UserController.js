@@ -6,18 +6,19 @@ module.exports = {
             name,
             email,
             password,
-            avatar,
     
         } = request.body;
     
     
-        await knex('users').insert({
+        const ids = await knex('users').insert({
             name,
             email,
             password,
             avatar: 'image-fake'
         })
+
+        userID = ids[0];
     
-        return response.json({ success: true });
+        return response.json({ userID });
     }
 }

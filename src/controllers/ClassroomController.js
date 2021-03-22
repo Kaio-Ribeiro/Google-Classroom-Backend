@@ -4,7 +4,7 @@ const crypto = require('crypto');
 module.exports = {
     async create(request, response) {
         const {
-            user_id,
+            userID,
             title,
             description,
             subject,
@@ -21,13 +21,13 @@ module.exports = {
             title,
             description,
             subject,
-            avatar: 'image-fake'
+            avatar
         })
 
         const user_has_class = {
             is_teacher: true,
             is_owner: true,
-            user_id: user_id,
+            user_id: userID,
             classroom_id: class_id,
         }
 
