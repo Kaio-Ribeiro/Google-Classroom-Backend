@@ -36,5 +36,12 @@ module.exports = {
         await trx.commit()
     
         return response.json({ class_id });
+    },
+
+    async list(request,response) {
+        const classrooms = await knex('classrooms').select('*')
+        
+
+        return response.json(classrooms)
     }
 }

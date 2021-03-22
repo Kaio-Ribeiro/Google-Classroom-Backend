@@ -8,8 +8,10 @@ const routes = express.Router();
 routes.post('/sessions', SessionController.create)
 
 routes.post('/users', UserController.create)
+routes.get('/users', UserController.list)
 
 routes.post('/classrooms', ClassroomController.create)
+routes.get('/classrooms',ClassroomController.list)
 
 
 module.exports = routes;

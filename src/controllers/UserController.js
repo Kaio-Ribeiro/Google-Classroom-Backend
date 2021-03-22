@@ -20,5 +20,10 @@ module.exports = {
         userID = ids[0];
     
         return response.json({ userID });
+    },
+    async list(request,response) {
+        const users = await knex('users').select('*')
+
+        return response.json(users)
     }
 }
