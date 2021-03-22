@@ -1,6 +1,6 @@
-import connection from '../database/connection.js'
+const connection = require('../database/connection.js')
 
-export default {
+module.exports = {
     async create(request, response) {
         const { email } = request.body
 

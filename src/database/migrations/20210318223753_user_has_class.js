@@ -1,4 +1,4 @@
-export function up(knex) {
+exports.up = function(knex) {
     return knex.schema.createTable('user_has_class', function (table) {
          table.increments('id').primary();
          table.boolean('is_teacher').notNullable();
@@ -16,6 +16,6 @@ export function up(knex) {
       })
   }
   
-export function down(knex) {
+exports.down = function(knex) {
   return knex.schema.dropTable('user_has_class');
 }

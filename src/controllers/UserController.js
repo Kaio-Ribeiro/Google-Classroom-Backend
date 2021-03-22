@@ -1,6 +1,6 @@
-import knex from '../database/connection.js';
+const knex = require('../database/connection.js');
 
-export default {
+module.exports = {
     async create(request, response) {
         const {
             name,

@@ -1,7 +1,7 @@
-import knex from '../database/connection.js';
-import crypto from 'crypto';
+const knex = require('../database/connection.js');
+const crypto = require('crypto');
 
-export default {
+module.exports = {
     async create(request, response) {
         const {
             user_id,
