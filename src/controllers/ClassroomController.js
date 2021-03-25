@@ -14,6 +14,7 @@ module.exports = {
 
         const trx = await knex.transaction();
         const class_id = crypto.randomBytes(4).toString('HEX')
+        console.log(userID)
     
     
         await trx('classrooms').insert({
@@ -39,9 +40,14 @@ module.exports = {
     },
 
     async list(request,response) {
-        const classrooms = await knex('classrooms').select('*')
-        
+        const user_id = request.headers.authorization
+        const user_has_class = await knex('user_has_class').where('user_id', user_id).select('*')
+        var classrooms = []
 
-        return response.json(classrooms)
+        for (var i = 0; i < user_has_class.length; i++) {
+            classrooms.push(await knex('classrooms').where('id', user_has_class[i].classroom_id).select('*'))
+        }
+        
+        return response.json(classrooms[0])
     }
 }

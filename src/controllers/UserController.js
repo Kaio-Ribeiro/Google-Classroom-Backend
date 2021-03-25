@@ -17,7 +17,7 @@ module.exports = {
             avatar: 'image-fake'
         })
 
-        userID = ids[0];
+        const userID = ids[0];
     
         return response.json({ userID });
     },
