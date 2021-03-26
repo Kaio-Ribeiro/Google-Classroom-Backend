@@ -45,9 +45,9 @@ module.exports = {
         var classrooms = []
 
         for (var i = 0; i < user_has_class.length; i++) {
-            classrooms.push(await knex('classrooms').where('id', user_has_class[i].classroom_id).select('*'))
+            classrooms.push(await knex('classrooms').where('id', user_has_class[i].classroom_id).first())
         }
         
-        return response.json(classrooms[0])
+        return response.json(classrooms)
     }
 }
