@@ -49,5 +49,11 @@ module.exports = {
         }
         
         return response.json(classrooms)
+    },
+
+    async show(request,response) {
+        const id = request.headers.authorization
+        const classroom = await knex('classrooms').where('id',id).first()
+        return response.json(classroom)
     }
 }

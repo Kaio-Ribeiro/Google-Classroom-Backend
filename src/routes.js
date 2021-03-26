@@ -12,6 +12,7 @@ routes.get('/users', UserController.list)
 
 routes.post('/classrooms', ClassroomController.create)
 routes.get('/classrooms',ClassroomController.list)
+routes.get('/classrooms/:id', ClassroomController.show)
 
 
 module.exports = routes;
