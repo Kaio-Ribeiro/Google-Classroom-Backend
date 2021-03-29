@@ -15,7 +15,7 @@ module.exports = {
         const class_room = await trx('class_rooms').where('code', class_code).first()
 
         const class_users = {
-            is_teacher: true,
+            is_teacher: false,
             is_owner: false,
             user_id: userID,
             class_room_id: class_room.id,
@@ -32,13 +32,13 @@ module.exports = {
 
     async index(request,response) {
         const class_id = request.headers.authorization
-        const class_room_users = await knex('class_room_users').where('class_room_id', class_id).where('is_teacher', 1).where('is_owner', 0).select('*')
-        var teachers = []
+        const class_room_users = await knex('class_room_users').where('class_room_id', class_id).where('is_teacher', 0).select('*')
+        var students = []
 
         for (var i = 0; i < class_room_users.length; i++) {
-            teachers.push(await knex('users').where('id', class_room_users[i].user_id).first())
+            students.push(await knex('users').where('id', class_room_users[i].user_id).first())
         }
         
-        return response.json(teachers)
+        return response.json(students)
     },
 }
