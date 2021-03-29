@@ -13,47 +13,47 @@ module.exports = {
         } = request.body;
 
         const trx = await knex.transaction();
-        const class_id = crypto.randomBytes(4).toString('HEX')
+        const timestamp = Date.now();
+        const class_code = crypto.randomBytes(4).toString('HEX')
         console.log(userID)
     
     
-        await trx('classrooms').insert({
-            id: class_id,
+        const class_id = await trx('class_rooms').insert({
+            code: class_code,
             title,
             description,
             subject,
-            avatar
+            avatar,
+            created_at: timestamp,
+            updated_at: timestamp,
         })
 
-        const user_has_class = {
+        const class_users = {
             is_teacher: true,
             is_owner: true,
             user_id: userID,
-            classroom_id: class_id,
+            class_room_id: class_id[0],
+            created_at: timestamp,
+            updated_at: timestamp,
         }
 
-        await trx('user_has_class').insert(user_has_class)
+        await trx('class_room_users').insert(class_users)
 
         await trx.commit()
+        console.log(class_id[0])
     
-        return response.json({ class_id });
+        return response.json(class_id[0]);
     },
 
-    async list(request,response) {
+    async index(request,response) {
         const user_id = request.headers.authorization
-        const user_has_class = await knex('user_has_class').where('user_id', user_id).select('*')
+        const class_room_users = await knex('class_room_users').where('user_id', user_id).select('*')
         var classrooms = []
 
-        for (var i = 0; i < user_has_class.length; i++) {
-            classrooms.push(await knex('classrooms').where('id', user_has_class[i].classroom_id).first())
+        for (var i = 0; i < class_room_users.length; i++) {
+            classrooms.push(await knex('class_rooms').where('id', class_room_users[i].class_room_id).first())
         }
         
         return response.json(classrooms)
     },
-
-    async show(request,response) {
-        const id = request.headers.authorization
-        const classroom = await knex('classrooms').where('id',id).first()
-        return response.json(classroom)
-    }
 }
