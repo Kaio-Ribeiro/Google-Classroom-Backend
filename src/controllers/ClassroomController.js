@@ -48,7 +48,7 @@ module.exports = {
     async index(request,response) {
         const user_id = request.headers.authorization
         const class_room_users = await knex('class_room_users').where('user_id', user_id).select('*')
-        var classrooms = []
+        var classrooms = [] 
 
         for (var i = 0; i < class_room_users.length; i++) {
             classrooms.push(await knex('class_rooms').where('id', class_room_users[i].class_room_id).first())
