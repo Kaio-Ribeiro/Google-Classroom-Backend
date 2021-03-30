@@ -31,5 +31,6 @@ module.exports = {
         const users = await knex('users').select('*')
 
         return response.json(users)
-    }
+    },
+    
 }
