@@ -5,6 +5,7 @@ const SessionController = require('./controllers/SessionController.js')
 const InvitedTeacherController = require('./controllers/InvitedTeacherController.js')
 const InvitedStudentController = require('./controllers/InvitedStudentController.js')
 const ClassroomUsersController = require('./controllers/ClassroomUsersController.js')
+const sendEmailController = require('./controllers/sendEmailController.js')
 
 const routes = express.Router();
 
@@ -25,5 +26,7 @@ routes.get('/students', InvitedStudentController.index)
 
 routes.get('/classroomsusers',ClassroomUsersController.index)
 routes.delete('/classroomsusers/:user_id',ClassroomUsersController.delete)
+
+routes.post('/send-email',sendEmailController.create)
 
 module.exports = routes;
