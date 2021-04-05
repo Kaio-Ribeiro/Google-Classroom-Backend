@@ -5,7 +5,7 @@ module.exports = {
     async create(request, response) {
         const {
             userID,
-            class_code
+            class_code 
     
         } = request.body;
 
@@ -30,9 +30,27 @@ module.exports = {
         return response.json(class_room.id);
     },
 
+    async update(request, response) {
+        const {email, code} = request.body
+
+        const timestamp = Date.now();
+        const class_room = await knex('class_rooms').where('code', code).first()
+        const selectedUser = await knex('users').where('email', email).first() 
+
+        const class_users = {
+            is_teacher: true,
+            updated_at: timestamp,
+        }
+
+        await knex('class_room_users').where('class_room_id', class_room.id).where('user_id', selectedUser.id).update(class_users)
+
+        return response.json(selectedUser.id)
+        
+    },
+
     async index(request,response) {
         const class_id = request.headers.authorization
-        const class_room_users = await knex('class_room_users').where('class_room_id', class_id).where('is_teacher', 1).where('is_owner', 0).select('*')
+        const class_room_users = await knex('class_room_users').where('class_room_id', class_id).where('is_teacher', 1).select('*')
         var teachers = []
 
         for (var i = 0; i < class_room_users.length; i++) {
