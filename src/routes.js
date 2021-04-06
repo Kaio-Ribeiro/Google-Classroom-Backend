@@ -1,4 +1,5 @@
 const express = require('express')
+const multer = require('multer')
 const UserController = require('./controllers/UserController.js')
 const ClassroomController = require('./controllers/ClassroomController.js')
 const SessionController = require('./controllers/SessionController.js')
@@ -9,7 +10,10 @@ const PostsController = require('./controllers/PostsController.js')
 const ContentTypeController = require('./controllers/ContentTypeController.js')
 const sendEmailController = require('./controllers/sendEmailController.js')
 
+const uploadConfig = require('./config/upload')
+
 const routes = express.Router();
+const upload = multer(uploadConfig)
 
 routes.post('/sessions', SessionController.create)
 
@@ -30,7 +34,7 @@ routes.get('/students', InvitedStudentController.index)
 routes.get('/classroomsusers',ClassroomUsersController.index)
 routes.delete('/classroomsusers/:user_id',ClassroomUsersController.delete)
 
-routes.post('/posts', PostsController.create)
+routes.post('/posts', upload.array('files'), PostsController.create)
 
 routes.post('/content-types', ContentTypeController.create)
 

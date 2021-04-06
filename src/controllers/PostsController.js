@@ -11,9 +11,15 @@ module.exports = {
 
         const user_id = request.headers.authorization
 
-        const timestamp = Date.now();       
+        const timestamp = Date.now();
+
+        const requestFiles = request.files
+
+        const files = requestFiles.map(file => {
+            return { url: file.filename }
+        })
     
-        await knex('contents').insert({
+        const contentID = await knex('contents').insert({
             user_id,
             title: 'Postagem',
             description,
@@ -22,7 +28,21 @@ module.exports = {
             created_at: timestamp,
             updated_at: timestamp,
         })
-    
-        return response.json({success: true});
+
+        if (files.length === 0) { 
+            return response.status(201).json({success: true});
+        }else {
+            for (var i = 0; i < files.length; i++) {
+                await knex('content_attachments').insert({
+                    content_id: contentID[0],
+                    url: files[i].url,
+                    created_at: timestamp,
+                    updated_at: timestamp,
+                })
+            }
+
+            return response.status(201).json({success: true});
+        }
+        
     },
 }
