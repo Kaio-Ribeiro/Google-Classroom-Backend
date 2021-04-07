@@ -11,8 +11,8 @@ exports.up = function(knex) {
         .onDelete('CASCADE');
       table.string('url', 100).notNullable();
       table.timestamps();
-    })
-}
+    });
+};
   
 exports.down = function(knex) {
   return knex.schema.dropTable('content_attachments');

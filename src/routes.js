@@ -9,8 +9,10 @@ const ClassroomUsersController = require('./controllers/ClassroomUsersController
 const PostsController = require('./controllers/PostsController.js')
 const ContentTypeController = require('./controllers/ContentTypeController.js')
 const sendEmailController = require('./controllers/sendEmailController.js')
+const HomeworksController = require('./controllers/HomeworksController.js')
 
 const uploadConfig = require('./config/upload')
+
 
 const routes = express.Router();
 const upload = multer(uploadConfig)
@@ -39,5 +41,7 @@ routes.post('/posts', upload.array('files'), PostsController.create)
 routes.post('/content-types', ContentTypeController.create)
 
 routes.post('/send-email',sendEmailController.create)
+
+routes.post('/homeworks', upload.array('files'),HomeworksController.create)
 
 module.exports = routes;
