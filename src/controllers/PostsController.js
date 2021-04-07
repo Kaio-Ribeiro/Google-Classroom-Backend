@@ -15,6 +15,7 @@ module.exports = {
 
         const requestFiles = request.files
 
+
         const files = requestFiles.map(file => {
             return { url: file.filename }
         })
