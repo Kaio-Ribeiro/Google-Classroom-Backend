@@ -38,6 +38,8 @@ routes.get('/classroomsusers',ClassroomUsersController.index)
 routes.delete('/classroomsusers/:user_id',ClassroomUsersController.delete)
 
 routes.post('/posts', upload.array('files'), PostsController.create)
+routes.get('/posts', PostsController.index)
+
 routes.post('/materials', upload.array('files'), MaterialsController.create)
 
 routes.post('/content-types', ContentTypeController.create)

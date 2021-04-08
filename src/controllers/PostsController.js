@@ -11,7 +11,15 @@ module.exports = {
 
         const user_id = request.headers.authorization
 
-        const timestamp = Date.now();
+        //const timestamp = Date.now();
+
+        const currentdate = new Date(); 
+        const timestamp = currentdate.getFullYear() + "-"
+                + (currentdate.getMonth()+1)  + "-" 
+                + currentdate.getDate() + " "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds() + "+00";
 
         const requestFiles = request.files
 
@@ -46,4 +54,33 @@ module.exports = {
         }
         
     },
+
+    async index(request, response) {
+        const class_id = request.headers.authorization 
+        infoPosts = []
+
+        const posts = await knex('contents').where('content_type_id', 1).where('class_room_id', class_id).select('*')
+
+        for (var i = 0; i < posts.length; i++) {
+            const user = await knex('users').where('id', posts[i].user_id).first()
+            var splited = posts[i].created_at.split(' ')
+            var date = splited[0].split('-')
+            var time = splited[1].split(':')
+
+            infoPosts.push({
+                id: posts[i].id,
+                title: posts[i].title,
+                day: date[2],
+                month: date[1],
+                year: date[0],
+                hours: time[0] + ':' + time[1],
+                description: posts[i].description,
+                created_at: posts[i].created_at,
+                user_name: user.name
+            })
+        }
+
+        return response.json(infoPosts)
+
+    }
 }
