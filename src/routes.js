@@ -7,6 +7,7 @@ const InvitedTeacherController = require('./controllers/InvitedTeacherController
 const InvitedStudentController = require('./controllers/InvitedStudentController.js')
 const ClassroomUsersController = require('./controllers/ClassroomUsersController.js')
 const PostsController = require('./controllers/PostsController.js')
+const MaterialsController = require('./controllers/MaterialsController.js')
 const ContentTypeController = require('./controllers/ContentTypeController.js')
 const sendEmailController = require('./controllers/sendEmailController.js')
 const HomeworksController = require('./controllers/HomeworksController.js')
@@ -37,6 +38,7 @@ routes.get('/classroomsusers',ClassroomUsersController.index)
 routes.delete('/classroomsusers/:user_id',ClassroomUsersController.delete)
 
 routes.post('/posts', upload.array('files'), PostsController.create)
+routes.post('/materials', upload.array('files'), MaterialsController.create)
 
 routes.post('/content-types', ContentTypeController.create)
 
