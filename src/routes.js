@@ -47,5 +47,6 @@ routes.post('/content-types', ContentTypeController.create)
 routes.post('/send-email',sendEmailController.create)
 
 routes.post('/homeworks', upload.array('files'),HomeworksController.create)
+routes.get('/homeworks', HomeworksController.index)
 
 module.exports = routes;

@@ -10,7 +10,14 @@ module.exports = {
         } = request.body;
 
         const trx = await knex.transaction();
-        const timestamp = Date.now();
+        
+        const currentdate = new Date(); 
+        const timestamp = currentdate.getFullYear() + "-"
+                + (currentdate.getMonth()+1)  + "-" 
+                + currentdate.getDate() + " "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds() + "+00";
     
         const class_room = await trx('class_rooms').where('code', class_code).first()
 

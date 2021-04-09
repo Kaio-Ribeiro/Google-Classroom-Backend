@@ -64,7 +64,6 @@ module.exports = {
         
         for (var i = 0; i < posts.length; i++) {
             const user = await knex('users').where('id', posts[i].user_id).first()
-            const contents_attachments = await knex('content_attachments').where('id',posts[i].id).select('*')
             var splited = posts[i].created_at.split(' ')
             var date = splited[0].split('-')
             var time = splited[1].split(':')
@@ -79,10 +78,10 @@ module.exports = {
                 description: posts[i].description,
                 created_at: posts[i].created_at,
                 user_name: user.name,
-                contents_attachments,
-                
                 
             })
+
+            console.log(infoPosts)
         }
 
         return response.json(infoPosts)

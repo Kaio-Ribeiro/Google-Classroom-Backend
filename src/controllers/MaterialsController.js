@@ -12,7 +12,13 @@ module.exports = {
 
         const user_id = request.headers.authorization
 
-        const timestamp = Date.now();
+        const currentdate = new Date(); 
+        const timestamp = currentdate.getFullYear() + "-"
+                + (currentdate.getMonth()+1)  + "-" 
+                + currentdate.getDate() + " "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds() + "+00";
 
         const requestFiles = request.files
 

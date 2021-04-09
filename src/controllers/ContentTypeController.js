@@ -5,7 +5,13 @@ module.exports = {
     async create(request, response) {
         const {name} = request.body;
 
-        const timestamp = Date.now();       
+        const currentdate = new Date(); 
+        const timestamp = currentdate.getFullYear() + "-"
+                + (currentdate.getMonth()+1)  + "-" 
+                + currentdate.getDate() + " "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds() + "+00";    
     
         await knex('content_types').insert({
             name,
