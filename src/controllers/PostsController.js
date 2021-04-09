@@ -80,8 +80,6 @@ module.exports = {
                 user_name: user.name,
                 
             })
-
-            console.log(infoPosts)
         }
 
         return response.json(infoPosts)
