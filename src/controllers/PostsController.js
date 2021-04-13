@@ -86,5 +86,18 @@ module.exports = {
 
         return response.json(infoPosts)
 
+    },
+
+    async delete(request, response){
+        const {id} = request.params
+        const class_room_id = request.headers.authorization
+
+
+        if(await knex('contents').where('id',id).where('class_room_id',class_room_id).delete()){
+            return response.status(204).send()
+        }else{
+            return response.status(401).json({erro: 'operation not permited'})
+        }
+
     }
 }
