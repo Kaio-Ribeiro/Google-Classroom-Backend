@@ -53,4 +53,50 @@ module.exports = {
         }
         
     },
+
+    async index(request, response) {
+        const class_id = request.headers.authorization 
+        
+        infoMats = []
+
+        const materials = await knex('contents').where('content_type_id', 3).where('class_room_id', class_id).select('*')
+        
+        for (var i = 0; i < materials.length; i++) {
+            const user = await knex('users').where('id', materials[i].user_id).first()
+            const attachments = await knex('content_attachments').where('content_id', materials[i].id).select(['id', 'url'])
+            var splited = materials[i].created_at.split(' ')
+            var date = splited[0].split('-')
+            var time = splited[1].split(':')
+
+            infoMats.push({
+                id: materials[i].id,
+                title: materials[i].title,
+                day: date[2],
+                month: date[1],
+                year: date[0],
+                hours: time[0] + ':' + time[1],
+                description: materials[i].description,
+                created_at: materials[i].created_at,
+                user_name: user.name,
+                attachments
+                
+            })
+        }
+
+        return response.json(infoMats)
+
+    },
+
+    async delete(request, response){
+        const {id} = request.params
+        const class_room_id = request.headers.authorization
+
+
+        if(await knex('contents').where('id',id).where('class_room_id',class_room_id).delete()){
+            return response.status(204).send()
+        }else{
+            return response.status(401).json({erro: 'operation not permited'})
+        }
+
+    }
 }
