@@ -50,6 +50,7 @@ module.exports = {
 
         
         await trx.commit()
+
         if (files.length === 0) { 
             return response.status(201).json({success: true});
         }else {
@@ -113,5 +114,35 @@ module.exports = {
             return response.status(401).json({error: 'operation not permited'})
         }
 
+    },
+
+    async update(request,response){
+        const {
+            id,
+            title,
+            description,
+            fullPoints,
+            dateLimit,
+
+        } = request.body;
+
+        console.log(request.body)
+
+        const user_id = request.headers.authorization
+
+        await knex('contents').where('id',id).where('user_id',user_id).update({
+            title,
+            description,
+        })
+
+        await knex('homeworks').where('content_id',id).update({
+            fullPoints,
+            dateLimit,
+        
+        })
+            
+        return response.status(204).send()
     }
+
+
 }

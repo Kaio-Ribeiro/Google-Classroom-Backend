@@ -52,5 +52,6 @@ routes.post('/send-email',sendEmailController.create)
 routes.post('/homeworks', upload.array('files'),HomeworksController.create)
 routes.get('/homeworks', HomeworksController.index)
 routes.delete('/homeworks/:id', HomeworksController.delete)
+routes.put('/homeworks',HomeworksController.update)
 
 module.exports = routes;
