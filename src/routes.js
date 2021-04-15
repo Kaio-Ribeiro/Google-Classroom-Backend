@@ -44,6 +44,7 @@ routes.delete('/posts/:id',PostsController.delete)
 routes.get('/materials', MaterialsController.index)
 routes.post('/materials', upload.array('files'), MaterialsController.create)
 routes.delete('/materials/:id', MaterialsController.delete)
+routes.put('/materials/:id', upload.array('files'), MaterialsController.update)
 
 routes.post('/content-types', ContentTypeController.create)
 
@@ -52,6 +53,6 @@ routes.post('/send-email',sendEmailController.create)
 routes.post('/homeworks', upload.array('files'),HomeworksController.create)
 routes.get('/homeworks', HomeworksController.index)
 routes.delete('/homeworks/:id', HomeworksController.delete)
-routes.put('/homeworks',HomeworksController.update)
+routes.put('/homeworks/:id', upload.array('files'), HomeworksController.update)
 
 module.exports = routes;

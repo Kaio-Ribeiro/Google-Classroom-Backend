@@ -99,5 +99,7 @@ module.exports = {
             return response.status(401).json({erro: 'operation not permited'})
         }
 
-    }
+    },
+
+    
 }

@@ -92,6 +92,7 @@ module.exports = {
                 hours: time[0] + ':' + time[1],
                 description: contents[i].description,
                 user_name: user.name,
+                dateLimit: homeworks.dateLimit,
                 yearLimit: dtLimit[0],
                 monthLimit: dtLimit[1],
                 dayLimit: dtLimit[2],
@@ -107,8 +108,13 @@ module.exports = {
         const {id} = request.params
         const class_room_id = request.headers.authorization
 
+        const trx = await knex.transaction();
 
-        if(await knex('contents').where('id',id).where('class_room_id',class_room_id).delete()){
+        if(await trx('contents').where('id',id).where('class_room_id',class_room_id).delete()){
+            await trx('homeworks').where('content_id',id).delete()
+            await trx('content_attachments').where('content_id',id).delete()
+
+            await trx.commit()
             return response.status(204).send()
         }else{
             return response.status(401).json({error: 'operation not permited'})
@@ -118,7 +124,7 @@ module.exports = {
 
     async update(request,response){
         const {
-            id,
+            user_id,
             title,
             description,
             fullPoints,
@@ -126,22 +132,55 @@ module.exports = {
 
         } = request.body;
 
-        console.log(request.body)
+        const {id} = request.params
 
-        const user_id = request.headers.authorization
-
-        await knex('contents').where('id',id).where('user_id',user_id).update({
-            title,
-            description,
-        })
-
-        await knex('homeworks').where('content_id',id).update({
-            fullPoints,
-            dateLimit,
+        const currentdate = new Date(); 
+        const timestamp = currentdate.getFullYear() + "-"
+                + (currentdate.getMonth()+1)  + "-" 
+                + currentdate.getDate() + " "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds() + "+00";
         
-        })
+
+        try {
+            await knex('contents').where('id', id).update({
+                title,
+                description,
+                updated_at: timestamp,
+            })
+
+            await knex('homeworks').where('content_id',id).update({
+                fullPoints,
+                dateLimit,
+                updated_at: timestamp,
             
-        return response.status(204).send()
+            })
+
+            const requestFiles = request.files
+
+            const files = requestFiles.map(file => {
+                return { url: file.filename }
+            })
+
+            if (files.length === 0) { 
+                return response.status(201).json({success: true});
+            }else {
+                for (var i = 0; i < files.length; i++) {
+                    await knex('content_attachments').insert({
+                        content_id: id,
+                        url: files[i].url,
+                        created_at: timestamp,
+                        updated_at: timestamp,
+                    })
+                }
+    
+                return response.status(201).json({success: true});
+            }
+            
+        }catch(err) {
+            return response.json(err)
+        }
     }
 
 
