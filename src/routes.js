@@ -40,6 +40,7 @@ routes.delete('/classroomsusers/:user_id',ClassroomUsersController.delete)
 routes.post('/posts', upload.array('files'), PostsController.create)
 routes.get('/posts', PostsController.index)
 routes.delete('/posts/:id',PostsController.delete)
+routes.put('/posts/:id', upload.array('files'), PostsController.update)
 
 routes.get('/materials', MaterialsController.index)
 routes.post('/materials', upload.array('files'), MaterialsController.create)
