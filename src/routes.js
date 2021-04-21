@@ -12,8 +12,10 @@ const ContentTypeController = require('./controllers/ContentTypeController.js')
 const sendEmailController = require('./controllers/sendEmailController.js')
 const HomeworksController = require('./controllers/HomeworksController.js')
 const ResponsesController = require('./controllers/ResponsesController.js')
+const CommentsController = require('./controllers/CommentsController.js')
 
 const uploadConfig = require('./config/upload')
+const { request } = require('express')
 
 
 const routes = express.Router();
@@ -60,5 +62,8 @@ routes.put('/homeworks/:id', upload.array('files'), HomeworksController.update)
 routes.post('/responses', upload.array('files'),ResponsesController.create)
 routes.get('/responses', ResponsesController.index)
 routes.put('/responses/:id', ResponsesController.update)
+
+routes.post('/comment-post', CommentsController.create)
+routes.get('/comment-post', CommentsController.index)
 
 module.exports = routes;
