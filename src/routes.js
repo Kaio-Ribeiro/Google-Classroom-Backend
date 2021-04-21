@@ -11,6 +11,7 @@ const MaterialsController = require('./controllers/MaterialsController.js')
 const ContentTypeController = require('./controllers/ContentTypeController.js')
 const sendEmailController = require('./controllers/sendEmailController.js')
 const HomeworksController = require('./controllers/HomeworksController.js')
+const ResponsesController = require('./controllers/ResponsesController.js')
 
 const uploadConfig = require('./config/upload')
 
@@ -55,5 +56,9 @@ routes.post('/homeworks', upload.array('files'),HomeworksController.create)
 routes.get('/homeworks', HomeworksController.index)
 routes.delete('/homeworks/:id', HomeworksController.delete)
 routes.put('/homeworks/:id', upload.array('files'), HomeworksController.update)
+
+routes.post('/responses', upload.array('files'),ResponsesController.create)
+routes.get('/responses', ResponsesController.index)
+routes.put('/responses/:id', ResponsesController.update)
 
 module.exports = routes;
