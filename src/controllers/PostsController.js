@@ -1,5 +1,4 @@
 const knex = require('../database/connection.js');
-const crypto = require('crypto');
 
 module.exports = {
     async create(request, response) {
@@ -67,7 +66,7 @@ module.exports = {
             const attachments = await knex('content_attachments').where('content_id', posts[i].id).select(['id', 'url'])
             var splited = posts[i].created_at.split(' ')
             var date = splited[0].split('-')
-            var time = splited[1].split(':')
+            var time = splited[1].split(':') 
 
             infoPosts.push({
                 id: posts[i].id,
@@ -79,7 +78,8 @@ module.exports = {
                 description: posts[i].description,
                 created_at: posts[i].created_at,
                 user_name: user.name,
-                attachments
+                attachments,
+                comments: []
                 
             })
         }
