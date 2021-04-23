@@ -45,11 +45,24 @@ module.exports = {
                 month: date[1],
                 year: date[0],
                 hours: time[0] + ':' + time[1],
+                user_id: comments[i].user_id,
+                content_id: comments[i].content_id,
                 user_name: user.name,
                 message: comments[i].comment,
             })
         }
 
         return response.json(infoComments)
-    }
+    },
+
+    async delete(request, response){
+        const {id} = request.params
+
+        if(await knex('comments_contents').where('id',id).delete()){
+            return response.status(204).send()
+        }else{
+            return response.status(401).json({erro: 'operation not permited'})
+        }
+
+    },
 }

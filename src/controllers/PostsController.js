@@ -70,6 +70,7 @@ module.exports = {
 
             infoPosts.push({
                 id: posts[i].id,
+                user_id: posts[i].user_id,
                 title: posts[i].title,
                 day: date[2],
                 month: date[1],

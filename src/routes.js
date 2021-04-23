@@ -63,7 +63,8 @@ routes.post('/responses', upload.array('files'),ResponsesController.create)
 routes.get('/responses', ResponsesController.index)
 routes.put('/responses/:id', ResponsesController.update)
 
-routes.post('/comment-post', CommentsController.create)
-routes.get('/comment-post', CommentsController.index)
+routes.post('/comment', CommentsController.create)
+routes.get('/comment', CommentsController.index)
+routes.delete('/comment/:id', CommentsController.delete)
 
 module.exports = routes;
