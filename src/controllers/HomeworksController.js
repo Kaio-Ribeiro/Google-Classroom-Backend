@@ -85,6 +85,7 @@ module.exports = {
 
             infoHomeworks.push({
                 id: contents[i].id,
+                homework_id: homeworks.id,
                 title: contents[i].title,
                 day: date[2],
                 month: date[1],
