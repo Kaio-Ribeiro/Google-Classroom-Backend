@@ -63,7 +63,7 @@ module.exports = {
         
         for (var i = 0; i < posts.length; i++) {
             const user = await knex('users').where('id', posts[i].user_id).first()
-            const attachments = await knex('content_attachments').where('content_id', posts[i].id).select(['id', 'url'])
+            const attachments = await knex('content_attachments').where('content_id', posts[i].id).select(['id', 'url', 'type'])
             var splited = posts[i].created_at.split(' ')
             var date = splited[0].split('-')
             var time = splited[1].split(':') 
