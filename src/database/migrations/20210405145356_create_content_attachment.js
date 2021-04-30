@@ -9,7 +9,9 @@ exports.up = function(knex) {
         .inTable('contents')
         .onUpdate('CASCADE')
         .onDelete('CASCADE');
-      table.string('url', 100).notNullable();
+      table.string('path', 255).notNullable();
+      table.string('extension', 10).notNullable();
+      table.string('type', 100).notNullable();
       table.timestamps();
     });
 };

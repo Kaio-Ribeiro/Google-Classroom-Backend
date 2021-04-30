@@ -13,6 +13,8 @@ const sendEmailController = require('./controllers/sendEmailController.js')
 const HomeworksController = require('./controllers/HomeworksController.js')
 const ResponsesController = require('./controllers/ResponsesController.js')
 const CommentsController = require('./controllers/CommentsController.js')
+const AttachmentsController = require('./controllers/AttachmentsController.js')
+const EspecificHomeworkController = require('./controllers/EspecificHomeworkController.js')
 
 const uploadConfig = require('./config/upload')
 const { request } = require('express')
@@ -66,5 +68,9 @@ routes.put('/responses/:id', ResponsesController.update)
 routes.post('/comment', CommentsController.create)
 routes.get('/comment', CommentsController.index)
 routes.delete('/comment/:id', CommentsController.delete)
+
+routes.delete('/attachment/:id', AttachmentsController.delete)
+
+routes.get('/especific-homework/:id', EspecificHomeworkController.index)
 
 module.exports = routes;

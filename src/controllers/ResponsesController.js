@@ -33,7 +33,7 @@ module.exports = {
             updated_at: timestamp,
         })
 
-        if (files.length === 0) { 
+        if (files.length === 0) {
             return response.status(201).json({success: true});
         }else {
             for (var i = 0; i < files.length; i++) {
@@ -64,7 +64,7 @@ module.exports = {
             const users = await knex('users').where('id', responses[i].user_id).first()
             const homework = await knex('homeworks').where('id', responses[i].homework_id).first()
             const content = await knex('contents').where('id', homework.content_id).first()
-            const attachments = await knex('response_attachments').where('homework_response_id', responses[i].id).select(['id', 'path'])
+            const attachments = await knex('response_attachments').where('homework_response_id', homework_id).select(['id', 'path', 'type'])
             var dtLimit = responses[i].deliveryDate.split('-')
 
             var splited = responses[i].created_at.split(' ')

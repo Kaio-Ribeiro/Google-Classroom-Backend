@@ -24,7 +24,7 @@ module.exports = {
 
 
         const files = requestFiles.map(file => {
-            return { url: file.filename }
+            return { url: file.filename, mimetype: file.mimetype }
         })
     
         const contentID = await knex('contents').insert({
@@ -41,9 +41,15 @@ module.exports = {
             return response.status(201).json({success: true});
         }else {
             for (var i = 0; i < files.length; i++) {
+                mimetype = files[i].mimetype.split('/')
+                type = mimetype[0]
+                extension = mimetype[1]
+
                 await knex('content_attachments').insert({
                     content_id: contentID[0],
-                    url: files[i].url,
+                    path: files[i].url,
+                    extension,
+                    type,
                     created_at: timestamp,
                     updated_at: timestamp,
                 })
@@ -63,7 +69,7 @@ module.exports = {
         
         for (var i = 0; i < materials.length; i++) {
             const user = await knex('users').where('id', materials[i].user_id).first()
-            const attachments = await knex('content_attachments').where('content_id', materials[i].id).select(['id', 'url'])
+            const attachments = await knex('content_attachments').where('content_id', materials[i].id).select(['id', 'path', 'type'])
             var splited = materials[i].created_at.split(' ')
             var date = splited[0].split('-')
             var time = splited[1].split(':')

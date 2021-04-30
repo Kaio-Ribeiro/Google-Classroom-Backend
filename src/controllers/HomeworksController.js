@@ -26,7 +26,7 @@ module.exports = {
         
 
         const files = requestFiles.map(file => {
-            return { url: file.filename }
+            return { url: file.filename, mimetype: file.mimetype }
         })
 
         
@@ -55,9 +55,15 @@ module.exports = {
             return response.status(201).json({success: true});
         }else {
             for (var i = 0; i < files.length; i++) {
+                mimetype = files[i].mimetype.split('/')
+                type = mimetype[0]
+                extension = mimetype[1]
+
                 await knex('content_attachments').insert({
                     content_id: contentID[0],
-                    url: files[i].url,
+                    path: files[i].url,
+                    extension,
+                    type,
                     created_at: timestamp,
                     updated_at: timestamp,
                 })
@@ -78,6 +84,7 @@ module.exports = {
             const user = await knex('users').where('id', contents[i].user_id).first()
             const homeworks = await knex('homeworks').where('content_id', contents[i].id).first()
             var dtLimit = homeworks.dateLimit.split('-')
+            const attachments = await knex('content_attachments').where('content_id', contents[i].id).select(['id', 'path', 'type'])
 
             var splited = contents[i].created_at.split(' ')
             var date = splited[0].split('-')
@@ -98,6 +105,7 @@ module.exports = {
                 monthLimit: dtLimit[1],
                 dayLimit: dtLimit[2],
                 fullPoints: homeworks.fullPoints,
+                attachments
                 
             })
         }
@@ -182,7 +190,6 @@ module.exports = {
         }catch(err) {
             return response.json(err)
         }
-    }
-
+    },
 
 }
